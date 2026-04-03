@@ -1,0 +1,17 @@
+tasks:
+  verify-environment:
+    name: Verify environment
+    description: Check that all expected tools are available in the devcontainer.
+    command: |
+      echo "=== Runtime versions ==="
+      node --version
+      python3 --version
+      go version
+      java -version 2>&1
+      echo "=== Git ==="
+      git --version
+      echo "=== Ona CLI ==="
+      ona version
+      echo "=== Environment ready ==="
+    triggeredBy:
+      - postDevcontainerStart
