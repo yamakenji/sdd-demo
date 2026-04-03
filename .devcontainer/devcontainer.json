@@ -1,0 +1,25 @@
+{
+	"name": "sdd-demo",
+	// Universal image includes Node.js, Python, Go, Java, and more.
+	// It is pre-cached on Ona Cloud runners for fast startup.
+	// See: https://hub.docker.com/r/microsoft/devcontainers
+	"image": "mcr.microsoft.com/devcontainers/universal:4.0.1-noble",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// Git and source control
+				"eamodio.gitlens",
+				// YAML editing (for automations.yaml, devcontainer.json, etc.)
+				"redhat.vscode-yaml",
+				// JSON editing
+				"zainchen.json",
+				// Markdown editing and preview
+				"yzhang.markdown-all-in-one",
+				// EditorConfig support
+				"editorconfig.editorconfig",
+				// GitHub Actions (if workflows are added)
+				"github.vscode-github-actions"
+			]
+		}
+	}
+}
