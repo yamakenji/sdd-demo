@@ -1,25 +1,34 @@
 {
-	"name": "sdd-demo",
-	// Universal image includes Node.js, Python, Go, Java, and more.
-	// It is pre-cached on Ona Cloud runners for fast startup.
-	// See: https://hub.docker.com/r/microsoft/devcontainers
-	"image": "mcr.microsoft.com/devcontainers/universal:4.0.1-noble",
+	"name": "sdd-demo (Kotlin Microservices)",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+	"features": {
+		"ghcr.io/devcontainers/features/java": {
+			"version": "21",
+			"installGradle": "true",
+			"gradleVersion": "8.10"
+		},
+		"ghcr.io/devcontainers/features/docker-in-docker": {}
+	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// Git and source control
-				"eamodio.gitlens",
-				// YAML editing (for automations.yaml, devcontainer.json, etc.)
+				"fwcd.kotlin",
+				"vscjava.vscode-gradle",
 				"redhat.vscode-yaml",
-				// JSON editing
-				"zainchen.json",
-				// Markdown editing and preview
-				"yzhang.markdown-all-in-one",
-				// EditorConfig support
-				"editorconfig.editorconfig",
-				// GitHub Actions (if workflows are added)
+				"eamodio.gitlens",
 				"github.vscode-github-actions"
 			]
+		}
+	},
+	"forwardPorts": [8080, 5432],
+	"portsAttributes": {
+		"8080": {
+			"label": "Quarkus Dev Server",
+			"onAutoForward": "notify"
+		},
+		"5432": {
+			"label": "PostgreSQL",
+			"onAutoForward": "silent"
 		}
 	}
 }
