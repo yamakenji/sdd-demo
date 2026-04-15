@@ -4,10 +4,10 @@ tasks:
     description: Check that all expected tools are available in the devcontainer.
     command: |
       echo "=== Runtime versions ==="
-      node --version
-      python3 --version
-      go version
       java -version 2>&1
+      gradle --version
+      kotlinc -version 2>&1 || echo "kotlinc: available via Gradle"
+      docker --version
       echo "=== Git ==="
       git --version
       echo "=== Ona CLI ==="
@@ -15,3 +15,33 @@ tasks:
       echo "=== Environment ready ==="
     triggeredBy:
       - postDevcontainerStart
+
+services:
+  postgres:
+    name: PostgreSQL
+    description: PostgreSQL database for local development.
+    commands:
+      start: |
+        docker run --rm \
+          --name sdd-postgres \
+          -e POSTGRES_USER=appuser \
+          -e POSTGRES_PASSWORD=apppassword \
+          -e POSTGRES_DB=appdb \
+          -p 5432:5432 \
+          postgres:16-alpine
+      ready: |
+        docker exec sdd-postgres pg_isready -U appuser -d appdb
+      stop: |
+        docker stop sdd-postgres
+
+  quarkus-dev:
+    name: Quarkus Dev Server
+    description: Quarkus application in dev mode with live reload.
+    commands:
+      start: |
+        cd service && ./gradlew quarkusDev \
+          -Dquarkus.datasource.username=appuser \
+          -Dquarkus.datasource.password=apppassword \
+          -Dquarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/appdb
+      ready: |
+        curl -sf http://localhost:8080/q/health/ready
